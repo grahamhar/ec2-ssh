@@ -1,14 +1,15 @@
 import boto3
 import cmd
-import json
-from collections import defaultdict
 
 ec2_client = None
+instance_tag_keys = []
+instance_key = 'Name'
+instance_key_value = ''
 
 
 class EC2HostFinder(cmd.Cmd):
     """Find the hosts you need in EC2 by tags"""
-    prompt = '(EC2)'
+    prompt = '(Tag:"Name" Vaule:"") '
 
     def get_ec2_client(self):
         global ec2_client
@@ -56,9 +57,27 @@ class EC2HostFinder(cmd.Cmd):
         """Exit back to your native shell"""
         return True
 
-    def do_set(self, line):
-        for tag in sorted(self.get_unique_instance_tags()):
-            print(tag)
+    def do_EOF(self, line):
+        """Exit back to your native shell on ctrl-d"""
+        return True
+
+    def do_set_key(self, line):
+        """Set the key name to filter on"""
+        global instance_key, instance_tag_keys, prompt
+        if not instance_tag_keys:
+            instance_tag_keys = self.get_unique_instance_tag_keys()
+        if line in instance_tag_keys:
+            instance_key = line
+            print('Tag key value set to: {}'.format(line))
+            prompt = '(Tag:"{}" Vaule:"{}") '.format(instance_key, instance_key_value)
+        else:
+            print('Unknown value for tag key, it remains set to: {}'.format(instance_key))
+
+    def complete_set_key(self, text, line, begidx, endidx):
+        global instance_tag_keys
+        if not instance_tag_keys:
+            instance_tag_keys = self.get_unique_instance_tag_keys()
+        return sorted([tag_key for tag_key in instance_tag_keys if tag_key.startswith(text)])
 
 
 if __name__ == '__main__':
