@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 @pytest.fixture(autouse=True)
 def reset_global_vars():
-    ec2_ssh.instance_key_value = ''
+    ec2_ssh.instance_tag_value = ''
     ec2_ssh.instance_key = 'Name'
     ec2_ssh.instance_tag_keys = []
 

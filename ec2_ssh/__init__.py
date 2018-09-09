@@ -3,8 +3,9 @@ import cmd
 
 ec2_client = None
 instance_tag_keys = []
+instance_tag_values = {}
 instance_key = 'Name'
-instance_key_value = ''
+instance_tag_value = ''
 
 
 class EC2HostFinder(cmd.Cmd):
@@ -69,7 +70,7 @@ class EC2HostFinder(cmd.Cmd):
         if line in instance_tag_keys:
             instance_key = line
             print('Tag key value set to: {}'.format(line))
-            prompt = '(Tag:"{}" Vaule:"{}") '.format(instance_key, instance_key_value)
+            prompt = '(Tag:"{}" Vaule:"{}") '.format(instance_key, instance_tag_value)
         else:
             print('Unknown value for tag key, it remains set to: {}'.format(instance_key))
 
@@ -78,6 +79,26 @@ class EC2HostFinder(cmd.Cmd):
         if not instance_tag_keys:
             instance_tag_keys = self.get_unique_instance_tag_keys()
         return sorted([tag_key for tag_key in instance_tag_keys if tag_key.startswith(text)])
+
+    def do_set_value(self, line):
+        """Set the key value to filter on"""
+        global instance_tag_values, instance_tag_value, prompt
+        if not instance_tag_values:
+            instance_tag_values[instance_key] = self.get_unique_instance_tag_values(tag_filter=instance_key)
+        if line in instance_tag_values[instance_key]:
+            instance_tag_value = line
+            print('Tag value set to: {}'.format(line))
+            prompt = '(Tag:"{}" Vaule:"{}") '.format(instance_key, instance_tag_value)
+        else:
+            print('Unknown value for tag value, it remains set to: {}'.format(instance_tag_value))
+
+    def complete_set_value(self, text, line, begidx, endidx):
+        """Provide tab completion for key value"""
+        global instance_tag_values
+        if instance_key not in instance_tag_values.keys():
+            instance_tag_values[instance_key] = self.get_unique_instance_tag_values(tag_filter=instance_key)
+        return sorted(
+            [tag_value for tag_value in instance_tag_values[instance_key] if tag_value.startswith(text)])
 
 
 if __name__ == '__main__':
