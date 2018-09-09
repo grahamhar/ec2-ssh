@@ -33,8 +33,8 @@ class EC2HostFinder(cmd.Cmd):
             DryRun=False,
             MaxResults=1000
         )
-        instances = [instance['InstanceId'] for reservation in response['Reservations'] for instance in reservation['Instances']]
-        return instances
+        return [network_interface['PrivateIpAddress'] for reservation in response['Reservations'] for instance in
+                reservation['Instances'] for network_interface in instance['NetworkInterfaces']]
 
     def get_unique_instance_tag_values(self, tag_filter='Name'):
         # TODO: handle paginated responses

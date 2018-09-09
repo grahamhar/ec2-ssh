@@ -6,13 +6,13 @@ from ec2_ssh import EC2HostFinder
 
 
 def test_get_instances():
-    """It should return a list of instanceids and use the default tag name and provided tag value"""
+    """It should return a list of instance ip addresses and use the default tag name and provided tag value"""
     with patch('ec2_ssh.ec2_client') as mock_boto_again:
-        expected_result = ['i-0737f9dd84fce83fe', 'i-0580b060c3e62aa40', 'i-0873911de1149f87d', 'i-083782f164bc0ccb0']
+        expected_result = ['1.1.1.1', '1.1.1.2', '1.1.1.3', '1.1.1.4']
         mock_boto_again.describe_instances.return_value = {
             'Reservations': [
-                {'Instances': [{'InstanceId': 'i-0737f9dd84fce83fe'}, {'InstanceId': 'i-0580b060c3e62aa40'}]},
-                {'Instances': [{'InstanceId': 'i-0873911de1149f87d'}, {'InstanceId': 'i-083782f164bc0ccb0'}]}
+                {'Instances': [{'NetworkInterfaces': [{'PrivateIpAddress': '1.1.1.1'}]}, {'NetworkInterfaces': [{'PrivateIpAddress': '1.1.1.2'}]}]},
+                {'Instances': [{'NetworkInterfaces': [{'PrivateIpAddress': '1.1.1.3'}, {'PrivateIpAddress': '1.1.1.4'}]}]}
 
             ]}
         ec2_host_finder = EC2HostFinder()
@@ -23,11 +23,11 @@ def test_get_instances():
 def test_get_instances_custom_tag():
     """It should return a list of instanceids and use the provided tag name and provided tag value"""
     with patch('ec2_ssh.ec2_client') as mock_boto_again:
-        expected_result = ['i-0737f9dd84fce83fe', 'i-0580b060c3e62aa40', 'i-0873911de1149f87d', 'i-083782f164bc0ccb0']
+        expected_result = ['1.1.1.1', '1.1.1.2', '1.1.1.3', '1.1.1.4']
         mock_boto_again.describe_instances.return_value = {
             'Reservations': [
-                {'Instances': [{'InstanceId': 'i-0737f9dd84fce83fe'}, {'InstanceId': 'i-0580b060c3e62aa40'}]},
-                {'Instances': [{'InstanceId': 'i-0873911de1149f87d'}, {'InstanceId': 'i-083782f164bc0ccb0'}]}
+                {'Instances': [{'NetworkInterfaces': [{'PrivateIpAddress': '1.1.1.1'}]}, {'NetworkInterfaces': [{'PrivateIpAddress': '1.1.1.2'}]}]},
+                {'Instances': [{'NetworkInterfaces': [{'PrivateIpAddress': '1.1.1.3'}, {'PrivateIpAddress': '1.1.1.4'}]}]}
 
             ]}
         ec2_host_finder = EC2HostFinder()
