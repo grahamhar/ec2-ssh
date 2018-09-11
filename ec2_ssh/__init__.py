@@ -1,11 +1,15 @@
 import boto3
 import cmd
+import subprocess
+
+from collections import defaultdict
 
 ec2_client = None
 instance_tag_keys = []
 instance_tag_values = {}
 instance_key = 'Name'
 instance_tag_value = ''
+instance_ips = defaultdict(lambda: defaultdict(list))
 
 
 class EC2HostFinder(cmd.Cmd):
@@ -99,6 +103,40 @@ class EC2HostFinder(cmd.Cmd):
             instance_tag_values[instance_key] = self.get_unique_instance_tag_values(tag_filter=instance_key)
         return sorted(
             [tag_value for tag_value in instance_tag_values[instance_key] if tag_value.startswith(text)])
+
+    def execute_ssh(self, ip_address):
+        """ssh to the provided IP"""
+        subprocess.call(['ssh {}'.format(ip_address)], shell=True)
+
+    def do_ssh(self, line):
+        """ssh to the selected ip[s]"""
+        global instance_ips
+        matched_ip = False
+        if not instance_ips[instance_key][instance_tag_value]:
+            print('Select either an IP address or a partial IP address using TAB complete\n')
+            return
+        if line in instance_ips[instance_key][instance_tag_value]:
+            self.execute_ssh(line)
+            matched_ip = True
+        else:
+            for ip_address in instance_ips[instance_key][instance_tag_value]:
+                if ip_address.startswith(line):
+                    self.execute_ssh(ip_address)
+                    matched_ip = True
+        if not matched_ip:
+            print('The supplied IP didn\'t match any EC2 instances tagged with {}:{}'.format(instance_key,
+                                                                                             instance_tag_value))
+        else:
+            print('SSH to all hosts complete')
+
+    def complete_ssh(self, text, line, begidx, endidx):
+        """Provide tab completion for ssh"""
+        global instance_ips
+        if not instance_ips[instance_key][instance_tag_value]:
+            instance_ips[instance_key][instance_tag_value] = self.get_ec2_instances(tag_value=instance_tag_value,
+                                                                                    tag_filter=instance_key)
+        return sorted(
+            ip_address for ip_address in instance_ips[instance_key][instance_tag_value] if ip_address.startswith(text))
 
 
 if __name__ == '__main__':
