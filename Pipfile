@@ -10,6 +10,7 @@ name = "pypi"
 pytest = "*"
 tox = "*"
 tox-pipenv = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.7"
