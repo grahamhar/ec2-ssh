@@ -5,11 +5,11 @@ name = "pypi"
 
 [packages]
 "boto3" = "*"
+click = "*"
+click-completion = "*"
 
 [dev-packages]
 pytest = "*"
-tox = "*"
-tox-pipenv = "*"
 pytest-cov = "*"
 
 [requires]
