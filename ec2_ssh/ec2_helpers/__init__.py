@@ -1,16 +1,44 @@
+import os
+
 from collections import defaultdict
 
 import boto3
+import botocore
 
+from awscli.customizations.assumerole import JSONFileCache
 
+boto3_session = None
+current_aws_profile = None
 ec2_client = None
 instance_tags = defaultdict(set)
 
 
+def get_aws_session(aws_profile):
+    global boto3_session
+    boto3_session = botocore.session.Session(profile=aws_profile)
+    credential_provider = boto3_session.get_component('credential_provider')
+    provider = credential_provider.get_provider('assume-role')
+    provider.cache = JSONFileCache()
+
+
+def get_region(session):
+    config = session.get_scoped_config()
+    if 'region' not in config.keys():
+        config['region'] = os.getenv('AWS_REGION', os.getenv('AWS_DEFAULT_REGION', 'us-east-1'))
+    return config['region']
+
+
 def get_ec2_client():
-    global ec2_client
-    if ec2_client is None:
-        ec2_client = boto3.client('ec2')
+    global boto3_session, current_aws_profile, ec2_client
+    aws_profile = os.getenv('AWS_PROFILE', os.getenv('AWS_DEFAULT_PROFILE', 'default'))
+    if current_aws_profile != aws_profile:
+        current_aws_profile = aws_profile
+        boto3_session = None
+    if ec2_client is None or boto3_session is None:
+        get_aws_session(current_aws_profile)
+        aws_region = get_region(boto3_session)
+        credentials = boto3_session.get_credentials()
+        ec2_client = boto3.client(service_name='ec2', region_name=aws_region, aws_access_key_id=credentials.access_key, aws_secret_access_key=credentials.secret_key, aws_session_token=credentials.token)
     return ec2_client
 
 

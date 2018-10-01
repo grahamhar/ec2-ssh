@@ -36,7 +36,7 @@ setup(
 
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
 
-    install_requires=['boto3', 'click', 'click-completion'],
+    install_requires=['awscli', 'click', 'click-completion'],
 
     extras_require={
         'dev': ['pytest', 'pytest-cov', 'coveralls'],
@@ -45,7 +45,9 @@ setup(
         'console_scripts': [
             'ec2-ssh=ec2_ssh.cli:cli',
         ],
+
     },
+    scripts=['ec2_ssh/cli/bin/ssh_ec2'],
     project_urls={
         'Bug Reports': 'https://github.com/grahamhar/ec2-ssh/issues',
         'Source': 'https://github.com/grahamhar/ec2-ssh/',
