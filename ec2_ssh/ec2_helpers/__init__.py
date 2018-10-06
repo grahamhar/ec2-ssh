@@ -46,6 +46,7 @@ def get_ec2_instance_ips(tag_key, tag_value):
     # TODO: handle paginated responses
     instance_ips = []
     if tag_key is not None and tag_value is not None:
+        tag_key = tag_key.replace('_COLON_', ':')
         response = get_ec2_client().describe_instances(
             Filters=[
                 {
@@ -72,6 +73,6 @@ def get_instance_tags():
                                                   Filters=[{'Name': 'resource-type',
                                                             'Values': ['instance', 'reserved-instances']}])
         for tag in response['Tags']:
-            instance_tags[tag['Key']].add(tag['Value'])
+            key = tag['Key'].replace(':', '_COLON_')
+            instance_tags[key].add(tag['Value'])
     return instance_tags
-
