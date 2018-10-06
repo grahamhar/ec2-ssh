@@ -36,16 +36,10 @@ setup(
 
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
 
-    install_requires=['awscli', 'click', 'click-completion'],
+    install_requires=['awscli', 'boto3', 'click', 'click-completion'],
 
     extras_require={
         'dev': ['pytest', 'pytest-cov', 'coveralls'],
-    },
-    entry_points={
-        'console_scripts': [
-            'ec2-ssh=ec2_ssh.cli:cli',
-        ],
-
     },
     scripts=['ec2_ssh/cli/bin/ssh_ec2'],
     project_urls={
