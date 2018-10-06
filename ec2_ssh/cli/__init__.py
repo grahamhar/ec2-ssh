@@ -97,7 +97,7 @@ def cli(help=cmd_help):
 @click.argument('tag_key', required=True, type=TagName(get_instance_tags()))
 @click.argument('tag_value', required=True, type=TagValue(get_instance_tags()))
 @click.argument('ssh_host', required=True, type=SSHHosts())
-def ssh(tag_key, tag_value, ssh_host):
+def select(tag_key, tag_value, ssh_host):
     if ssh_host[0].isdigit():
         execute_ssh(ssh_host)
     elif ssh_host == 'all':
