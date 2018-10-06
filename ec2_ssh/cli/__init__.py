@@ -16,8 +16,8 @@ selected_tag_value = None
 tag_instance_ips = defaultdict(lambda: defaultdict(list))
 
 
-
 click_completion.init(complete_options=True)
+
 
 class TagName(click.ParamType):
     name = "Tag Name"
@@ -108,7 +108,6 @@ def ssh(tag_key, tag_value, ssh_host):
     elif ssh_host == 'random':
         ip_addresses = [ip_address for ip_address in tag_instance_ips[tag_key][tag_value] if ip_address[0].isdigit()]
         execute_ssh(random.choice(ip_addresses))
-
 
 
 if __name__ == '__main__':
