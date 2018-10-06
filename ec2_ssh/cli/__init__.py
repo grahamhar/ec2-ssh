@@ -10,7 +10,7 @@ import click_completion.core
 
 from ec2_ssh.ec2_helpers import get_ec2_instance_ips, get_instance_tags
 
-cmd_help = "SSH to hosts by AWS Tag Name and Tag Value"
+cmd_help = "Get hosts to ssh to by AWS Tag Name and Tag Value"
 selected_tag_name = None
 selected_tag_value = None
 tag_instance_ips = defaultdict(lambda: defaultdict(list))
@@ -98,7 +98,6 @@ def cli(help=cmd_help):
 @click.argument('tag_value', required=True, type=TagValue(get_instance_tags()))
 @click.argument('ssh_host', required=True, type=SSHHosts())
 def ssh(tag_key, tag_value, ssh_host):
-    print('value {} {} {}'.format(tag_key, tag_value, ssh_host))
     if ssh_host[0].isdigit():
         execute_ssh(ssh_host)
     elif ssh_host == 'all':
