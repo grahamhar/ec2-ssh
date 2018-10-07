@@ -42,4 +42,6 @@ Tab completion for all commands and arguments. If you don't need a specific IP t
 
 Note:
 
+This utility assumes you have an ssh config in place to handle how to connect to the given instances.
+
 If tag names have a `:` in them they are replaced with `_COLON_` this is due to zsh treating text after a colon as help text
