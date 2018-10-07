@@ -25,6 +25,8 @@ fi
 Example Usage:
 
 ```
+ssh_ec2 select [TAG NAME] [TAG VALUE] [IP ADDRESS|all|random]
+
 Usage: ssh_ec2 [OPTIONS] COMMAND [ARGS]...
 
 Options:
@@ -33,6 +35,8 @@ Options:
 Commands:
   select
 ```
+
+Tab completion for all commands and arguments. If you don't need a specific IP then use random to select one of the hosts at random or all to go to each host in turn.
 
 Note:
 
