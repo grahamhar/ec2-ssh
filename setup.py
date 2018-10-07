@@ -12,14 +12,14 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 setup(
     name='ec2-ssh',
 
-    version='0.0.0',
+    version='0.0.1',
 
     description='A simple AWS ec2 host discovery and ssh script',
 
     long_description=long_description,
     long_description_content_type='text/markdown',
 
-    url='https://github.com/grahamhar/aws-rotate',
+    url='https://github.com/grahamhar/ec2-ssh/',
 
     author='grahamhar',
 
