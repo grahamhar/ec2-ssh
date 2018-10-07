@@ -6,6 +6,7 @@ import boto3
 import botocore
 
 from awscli.customizations.assumerole import JSONFileCache
+from click import UsageError
 
 boto3_session = None
 current_aws_profile = None
@@ -35,10 +36,14 @@ def get_ec2_client():
         current_aws_profile = aws_profile
         boto3_session = None
     if ec2_client is None or boto3_session is None:
-        get_aws_session(current_aws_profile)
-        aws_region = get_region(boto3_session)
-        credentials = boto3_session.get_credentials()
-        ec2_client = boto3.client(service_name='ec2', region_name=aws_region, aws_access_key_id=credentials.access_key, aws_secret_access_key=credentials.secret_key, aws_session_token=credentials.token)
+        try:
+            get_aws_session(current_aws_profile)
+            aws_region = get_region(boto3_session)
+            credentials = boto3_session.get_credentials()
+            ec2_client = boto3.client(service_name='ec2', region_name=aws_region, aws_access_key_id=credentials.access_key, aws_secret_access_key=credentials.secret_key, aws_session_token=credentials.token)
+        except AttributeError:
+            raise UsageError(
+                '\nA valid AWS Profile could not be found.\nPlease check you have a "default" profile in your AWS credentials file or the "AWS_PROFILE" environment variable is set')
     return ec2_client
 
 
