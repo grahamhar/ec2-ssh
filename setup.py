@@ -10,7 +10,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 
 setup(
-    name='ec2-ssh',
+    name='ssh-ec2',
 
     version='0.0.1',
 
@@ -19,7 +19,7 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
 
-    url='https://github.com/grahamhar/ec2-ssh/',
+    url='https://github.com/grahamhar/ssh-ec2/',
 
     author='grahamhar',
 
@@ -43,7 +43,7 @@ setup(
     },
     scripts=['ec2_ssh/cli/bin/ssh_ec2'],
     project_urls={
-        'Bug Reports': 'https://github.com/grahamhar/ec2-ssh/issues',
-        'Source': 'https://github.com/grahamhar/ec2-ssh/',
+        'Bug Reports': 'https://github.com/grahamhar/ssh-ec2/issues',
+        'Source': 'https://github.com/grahamhar/ssh-ec2/',
     },
 )
