@@ -1,6 +1,8 @@
 # ssh-ec2
 Make ssh to EC2 instances easier
 
+[![alt text](https://travis-ci.org/grahamhar/ssh-ec2.svg?branch=master "Build Status")](https://travis-ci.org/grahamhar/ssh-ec2/builds) [![Coverage Status](https://coveralls.io/repos/github/grahamhar/ssh-ec2/badge.svg?branch=master)](https://coveralls.io/github/grahamhar/ssh-ec2?branch=master) [![Downloads](http://pepy.tech/badge/ssh-ec2)](http://pepy.tech/project/ssh-ec2)
+
 Install:
 
 ```
