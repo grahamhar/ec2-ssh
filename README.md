@@ -1,4 +1,4 @@
-# ec2-ssh
+# ssh-ec2
 Make ssh to EC2 instances easier
 
 Install:
