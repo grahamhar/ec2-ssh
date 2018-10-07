@@ -12,7 +12,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 setup(
     name='ssh-ec2',
 
-    version='0.0.1',
+    version='0.0.2',
 
     description='A simple AWS ec2 host discovery and ssh script',
 
