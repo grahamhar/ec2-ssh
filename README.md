@@ -4,7 +4,7 @@ Make ssh to EC2 instances easier
 Install:
 
 ```
-pip install ec2-ssh
+pip install ssh-ec2
 ```
 
 Setup:
