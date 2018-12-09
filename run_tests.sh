@@ -4,6 +4,6 @@ set -eux -o pipefail
 
 cd "$1"
 
-pip install -e."[dev]"
+pip install -q -e."[dev]"
 
 pytest -v
