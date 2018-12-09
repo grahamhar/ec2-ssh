@@ -1,0 +1,23 @@
+---
+jobs:
+- name: ec2-ssh
+  public: true
+  plan:
+  - get: source-code
+  - task: run tests
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: {repository: roomz/pytest-ci}
+      inputs:
+      - name: source-code
+      run:
+        path: source-code/run_tests.sh
+        args: [source-code]
+resources:
+- name: source-code
+  type: git
+  source:
+    uri: https://github.com/grahamhar/ssh-ec2.git
+    branch: master
