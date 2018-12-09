@@ -41,7 +41,7 @@ def get_ec2_client():
             aws_region = get_region(boto3_session)
             credentials = boto3_session.get_credentials()
             ec2_client = boto3.client(service_name='ec2', region_name=aws_region, aws_access_key_id=credentials.access_key, aws_secret_access_key=credentials.secret_key, aws_session_token=credentials.token)
-        except AttributeError:
+        except (AttributeError, botocore.exceptions.ProfileNotFound):
             raise UsageError(
                 '\nA valid AWS Profile could not be found.\nPlease check you have a "default" profile in your AWS credentials file or the "AWS_PROFILE" environment variable is set')
     return ec2_client
