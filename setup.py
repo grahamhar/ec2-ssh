@@ -39,7 +39,7 @@ setup(
     install_requires=['awscli', 'boto3', 'click', 'click-completion'],
 
     extras_require={
-        'dev': ['pytest', 'pytest-cov', 'coveralls'],
+        'dev': ['pytest', 'pytest-cov', 'coveralls', 'pytest-html'],
     },
     scripts=['ec2_ssh/cli/bin/ssh_ec2'],
     project_urls={

@@ -6,4 +6,4 @@ cd "$1"
 
 pip install -q -e."[dev]"
 
-pytest -v
+pytest -v --html=./build-results/report.html

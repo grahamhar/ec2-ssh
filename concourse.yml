@@ -15,6 +15,19 @@ jobs:
       run:
         path: source-code/run_tests.sh
         args: [source-code]
+      outputs:
+        - name: build-results
+  - task: list results
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: {repository: ubuntu/latest}
+      inputs:
+      - name: build-results
+      run:
+        path: ls
+        args: ["-l", "build-results"]
 resources:
 - name: source-code
   type: git
