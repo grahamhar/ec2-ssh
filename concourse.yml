@@ -4,6 +4,7 @@ jobs:
   public: true
   plan:
   - get: source-code
+    trigger: true
   - task: run tests
     config:
       platform: linux
