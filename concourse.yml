@@ -22,12 +22,12 @@ jobs:
       platform: linux
       image_resource:
         type: docker-image
-        source: {repository: ubuntu/latest}
+        source: {repository: ubuntu}
       inputs:
       - name: build-results
       run:
         path: ls
-        args: ["-l", "build-results"]
+        args: ["-lR", "build-results"]
 resources:
 - name: source-code
   type: git
